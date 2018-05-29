@@ -2,6 +2,9 @@ import scrapy
 import requests
 from lxml import etree
 from pymongo import MongoClient
+from scrapy.utils.project import get_project_settings
+from pymongo import MongoClient
+from db import db
 
 # res = requests.get('https://api.etherscan.io/api?module=account&action=txlist&address=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5690000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M')
 # print(res.json())
@@ -35,18 +38,33 @@ from pymongo import MongoClient
 # res = requests.get('https://etherscan.io/token/TenXPay')
 # print(res.status_code == 200)
 
-res = requests.get('http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5680000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M')
-resp = res.json()
-data = resp['result'] #列表
-for dt in data:
-    item = {}
-    item['block_number'] = dt['blockNumber']
-    item['token_name'] = dt['tokenName']
-    item['token_symbol'] = dt['tokenSymbol']
-    item['time_stamp'] = dt['timeStamp']
-    item['hash'] = dt['hash']
-    item['block_hash'] = dt['blockHash']
-    item['from_where'] = dt['from']
-    item['to_where'] = dt['to']
-    item['value'] = dt['value']
-    print(item)
+# res = requests.get('http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5680000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M')
+# resp = res.json()
+# data = resp['result'] #列表
+# for dt in data:
+#     item = {}
+#     item['block_number'] = dt['blockNumber']
+#     item['token_name'] = dt['tokenName']
+#     item['token_symbol'] = dt['tokenSymbol']
+#     item['time_stamp'] = dt['timeStamp']
+#     item['hash'] = dt['hash']
+#     item['block_hash'] = dt['blockHash']
+#     item['from_where'] = dt['from']
+#     item['to_where'] = dt['to']
+#     item['value'] = dt['value']
+#     print(item)
+# http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5690000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M
+# http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5700000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M
+# base_url = 'http://api.etherscan.io/api?module=account&action=tokentx&contractaddress='
+# start_block = '5660000'
+# end_block = '5700000'
+# api_key = '18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M'
+# contract_address = '0x3136ef851592acf49ca4c825131e364170fa32b3'
+# start_urls = base_url + contract_address + '&startblock=' + start_block + '&endblock=' + end_block + '&sort=desc&apikey=' + api_key
+# print(start_urls)
+
+
+coll = db['etherscan_contract_address']
+conadd = coll['contract_address'].find()
+for address in conadd:
+    print(address['contract_address'])

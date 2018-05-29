@@ -14,10 +14,12 @@ BOT_NAME = 'etherscan'
 SPIDER_MODULES = ['etherscan.spiders']
 NEWSPIDER_MODULE = 'etherscan.spiders'
 
-MONGO_HOST = '127.0.0.1'
-MONGO_PORT = 27017
-MONGO_DB = 'etherscan_token'
-MONGO_COLL = 'CoinFi'
+MONGO_HOST = '1o746k7976.51mypc.cn'
+MONGO_PORT = 31006
+MONGO_USER = 'llps'
+MONGO_PSW = 'llps&789'
+MONGO_DB = 'neo_crawl_data'
+MONGO_COLL = 'etherscan_CoinFi'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'etherscan (+http://www.yourdomain.com)'
 

@@ -59,9 +59,7 @@ def select_etherscan(data):
 
 select_etherscan(details)
 def write_database(post):
-    client = MongoClient("mongodb://127.0.0.1:27017")
-    db = client['etherscan_token']
-    posts = db.contact_address
+    posts = db.etherscan_contact_address
     posts.insert_many(post)
 
 write_database(select_etherscan(details))
