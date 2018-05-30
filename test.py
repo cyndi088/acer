@@ -4,7 +4,7 @@ from lxml import etree
 from pymongo import MongoClient
 from scrapy.utils.project import get_project_settings
 from pymongo import MongoClient
-from db import db
+import json
 
 # res = requests.get('https://api.etherscan.io/api?module=account&action=txlist&address=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5690000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M')
 # print(res.json())
@@ -64,7 +64,31 @@ from db import db
 # print(start_urls)
 
 
-coll = db['etherscan_contract_address']
-conadd = coll['contract_address'].find()
-for address in conadd:
-    print(address['contract_address'])
+
+mongo_url = "mongodb://1o746k7976.51mypc.cn:31006"
+mongo_user = "llps"
+mongo_password = "llps&789"
+mongo_auth = "admin"
+mongo_mechanism = "SCRAM-SHA-1"
+client = MongoClient(mongo_url, username=mongo_user, password=mongo_password, authSource=mongo_auth, authMechanism=mongo_mechanism)
+db = client['neo_crawl_data']
+details = db['etherscan_contract_address'].find()
+for address in details:
+    # request = Request(parse_urls % address['contract_address'], callback=self.parse)
+    # yield request
+    parse_urls = 'http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=%s&startblock=5690000&endblock=5700000                      &sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M'
+    msg = requests.get(parse_urls % address['contract_address']).text
+    data = json.loads(msg)
+    print(data)
+    # for dt in data['result']:
+    #     item = {}
+    #     item['block_number'] = dt['blockNumber']
+    #     item['token_name'] = dt['tokenName']
+    #     item['token_symbol'] = dt['tokenSymbol']
+    #     item['time_stamp'] = dt['timeStamp']
+    #     item['hash'] = dt['hash']
+    #     item['block_hash'] = dt['blockHash']
+    #     item['from_where'] = dt['from']
+    #     item['to_where'] = dt['to']
+    #     item['value'] = dt['value']
+    #     print(item)
