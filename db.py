@@ -41,10 +41,13 @@ def select_etherscan(data):
                     resp = requests.get(url, headers)
                     html_tree = etree.HTML(resp.text)
                     contract_list = html_tree.xpath(contract_xpath)
-                    res = contract_list[0]
-                    post = {'symbol': symbol, 'contract_address': res}
-                    yield post
-                    # print(post)
+                    if len(contract_list) != 0:
+                        res = contract_list[0]
+                        post = {'symbol': symbol, 'contract_address': res}
+                        yield post
+                        # print(contract_list)
+                    else:
+                        pass
                 else:
                     res = res
                     post = {'symbol': symbol, 'contract_address': res}
@@ -57,7 +60,7 @@ def select_etherscan(data):
             pass
             # print('Explorer not exists !')
 
-select_etherscan(details)
+# select_etherscan(details)
 def write_database(post):
     posts = db.etherscan_contract_address
     posts.insert_many(post)

@@ -18,5 +18,5 @@ class MongoPipeline(object):
         self.coll = self.db[settings['MONGO_COLL']]
 
     def process_item(self, item, spider):
-        self.coll.insert(dict(item))
+        self.coll.save(dict(item))
         return item

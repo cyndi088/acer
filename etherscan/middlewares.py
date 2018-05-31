@@ -5,8 +5,9 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import random
 from scrapy import signals
-
+# from etherscan.settings import USER_AGENT_LIST
 
 class EtherscanSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +102,14 @@ class EtherscanDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+# class ProxyMiddleware(object):
+#     def process_request(self, request, spider):
+#         request.meta['proxy'] = "http://49.85.7.16:29072/"
+#         return None
+
+# class RandomUserAgentMiddleware(object):
+#     def process_request(self, request, spider):
+#         ua = random.choice(USER_AGENT_LIST)
+#         if ua:
+#             request.headsers.setdefault('User-Agent', ua)
