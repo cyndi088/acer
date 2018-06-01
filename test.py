@@ -7,6 +7,7 @@ from pymongo import MongoClient
 import json
 from scrapy import Request
 from scrapy.selector import Selector
+import pymongo
 
 # res = requests.get('https://api.etherscan.io/api?module=account&action=txlist&address=0x3136ef851592acf49ca4c825131e364170fa32b3&startblock=5660000&endblock=5690000&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M')
 # print(res.json())
@@ -74,6 +75,16 @@ mongo_auth = "admin"
 mongo_mechanism = "SCRAM-SHA-1"
 client = MongoClient(mongo_url, username=mongo_user, password=mongo_password, authSource=mongo_auth, authMechanism=mongo_mechanism)
 db = client['neo_crawl_data']
+# startaddress = db['etherscan_token'].find()
+# 根据token_symbol对应的时间戳，获取最新的block_height
+rsp = db['etherscan_token'].find({"token_symbol": "COFI"}).sort([("time_stamp", -1)]).limit(1)
+# print(type([rsp[0]][0]['block_height']))
+# 获取某个字段值的种类数
+print(len(db['etherscan_token'].distinct("token_symbol")))
+# 判断contract_address中的symbol是否存在于etherscan_token中
+# print("COFI" in db['etherscan_token'].distinct("token_symbol"))
+
+
 # details = db['etherscan_contract_address'].find()
 # for address in details:
 #     # request = Request(parse_urls % address['contract_address'], callback=self.parse)

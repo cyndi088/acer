@@ -62,7 +62,7 @@ def select_etherscan(data):
 
 # select_etherscan(details)
 def write_database(post):
-    posts = db.etherscan_contract_address
+    posts = db.etherscan_contract_address_test
     posts.insert_many(post)
 
 write_database(select_etherscan(details))

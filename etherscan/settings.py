@@ -19,7 +19,7 @@ MONGO_PORT = 31006
 MONGO_USER = 'llps'
 MONGO_PSW = 'llps&789'
 MONGO_DB = 'neo_crawl_data'
-MONGO_COLL = 'etherscan_token_test'
+MONGO_COLL = 'etherscan_token'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'etherscan (+http://www.yourdomain.com)'
 # USER_AGENT_LIST = [
