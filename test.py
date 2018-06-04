@@ -77,8 +77,8 @@ client = MongoClient(mongo_url, username=mongo_user, password=mongo_password, au
 db = client['neo_crawl_data']
 # startaddress = db['etherscan_token'].find()
 # 根据token_symbol对应的时间戳，获取最新的block_height
-rsp = db['etherscan_token'].find({"token_symbol": "COFI"}).sort([("time_stamp", -1)]).limit(1)
-# print(type([rsp[0]][0]['block_height']))
+rsp = db['etherscan_token'].find({"token_symbol": "QAU"}).sort([("time_stamp", -1)]).limit(1)
+# print([rsp[0]][0]['block_height'])
 # 获取某个字段值的种类数
 print(len(db['etherscan_token'].distinct("token_symbol")))
 # 判断contract_address中的symbol是否存在于etherscan_token中

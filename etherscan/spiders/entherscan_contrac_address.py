@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import json
-from etherscan.items import EtherscanItem
 from db import db
 from scrapy import Request
-import requests
-from scrapy.selector import Selector
-import time
 
 
 class EntherscanContracAddressSpider(scrapy.Spider):
@@ -18,7 +13,6 @@ class EntherscanContracAddressSpider(scrapy.Spider):
         state_code = response
         parse_urls = 'http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=%s&startblock=%d&endblock=%d&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M'
         addresses = db['etherscan_contract_address'].find()
-
         for address in addresses:
             contract_address = address['contract_address']
             symbol = address['symbol']
@@ -27,6 +21,7 @@ class EntherscanContracAddressSpider(scrapy.Spider):
                 start_block = int([start_block_list[0]][0]['block_height'])
                 end_block = start_block + 10000
                 request = Request(parse_urls % (contract_address, start_block, end_block), callback=self.parse_list)
+            # request = Request(parse_urls % contract_address, callback=self.parse_list)
                 yield request
             else:
                 pass
@@ -66,44 +61,3 @@ class EntherscanContracAddressSpider(scrapy.Spider):
     #     item['from_where'] = meta['from_where']
     #     item['to_where'] = meta['to_where']
     #     yield item
-
-
-# class EntherscanContracAddressSpider(scrapy.Spider):
-#     name = 'entherscan_contrac_address'
-#     allowed_domains = ['etherscan.io']
-#     start_urls = ['http://api.etherscan.io/']
-#
-#     def parse(self, response):
-#         state_code = response
-#         parse_urls = 'http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=%s&startblock=%d&endblock=%d&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M'
-#         details = db['etherscan_contract_address'].find()
-#         for address in details:
-#             start = 560000
-#             new_url = http://api.etherscan.io/api?module=account&action=tokentx&contractaddress=%s&startblock=%d&endblock=%d&sort=desc&apikey=18RC3HD9A4Z7E21DA4DWTFX8TZ6VNWYI7M
-#
-#             if not  new_url == start_urls:
-#                 start = new_url.finf(startblock).asd == 560001
-#
-#             url = parse_urls % (address['contract_address'], start, start+1)
-#             request = Request(url , callback=self.parse_list)
-#             yield request
-#
-#     def parse_list(self, response):
-#         resp = json.loads(response.text)
-#         data = resp['result']
-#         # parse_transfer_urls = 'https://etherscan.io/tx/%s'
-#         if data['status'] = 0:
-#             request = Request(url, callback=self.parse_list)
-#
-#         for dt in data:
-#             item = {}
-#             item['block_height'] = dt['blockNumber']
-#             item['token_name'] = dt['tokenName']
-#             item['token_symbol'] = dt['tokenSymbol']
-#             item['time_stamp'] = dt['timeStamp']
-#             item['token_transfer'] = dt['value']
-#             item['hash'] = dt['hash']
-#             item['block_hash'] = dt['blockHash']
-#             item['from_where'] = dt['from']
-#             item['to_where'] = dt['to']
-#             yield item
