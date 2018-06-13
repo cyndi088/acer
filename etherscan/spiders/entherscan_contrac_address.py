@@ -2,6 +2,7 @@
 import scrapy
 from db import db
 from scrapy import Request
+import json
 
 
 class EntherscanContracAddressSpider(scrapy.Spider):
